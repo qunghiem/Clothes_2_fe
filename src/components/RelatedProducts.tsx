@@ -2,13 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { selectProducts } from '../store/slices/shopSlice';
-import Title from "../components/Title";
-import ProductItem from "../components/ProductItem";
+import { Product } from '../types';
+import Title from "./Title";
+import ProductItem from "./ProductItem";
 
-const RelatedProducts = ({ category, subCategory }) => {
+interface RelatedProductsProps {
+    category: string;
+    subCategory: string;
+}
+
+const RelatedProducts: React.FC<RelatedProductsProps> = ({ category, subCategory }) => {
     const products = useSelector(selectProducts);
-    const [related, setRelated] = useState([]);
-    const { productId } = useParams();
+    const [related, setRelated] = useState<Product[]>([]);
+    const { productId } = useParams<{ productId: string }>();
 
     useEffect(() => {
         if (products.length > 0) {

@@ -28,6 +28,7 @@ const Login: React.FC = () => {
   });
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   const [touched, setTouched] = useState<{[key: string]: boolean}>({});
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,11 +55,12 @@ const Login: React.FC = () => {
         
       case 'password':
         if (!value) return 'Password is required';
-        if (value.length < 6) return 'Password must be at least 6 characters';
+        if (value.length < 8) return 'Password must be at least 8 characters';
         if (currentState === 'Sign Up') {
           if (!/(?=.*[a-z])/.test(value)) return 'Password must contain at least one lowercase letter';
           if (!/(?=.*[A-Z])/.test(value)) return 'Password must contain at least one uppercase letter';
           if (!/(?=.*\d)/.test(value)) return 'Password must contain at least one number';
+          if (!/(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/.test(value)) return 'Password must contain at least one special character (!@#$%^&*...)';
         }
         return undefined;
         
@@ -102,6 +104,7 @@ const Login: React.FC = () => {
     dispatch(clearError());
     setValidationErrors({});
     setTouched({});
+    setShowPassword(false); // Reset password visibility when switching forms
   }, [currentState, dispatch]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -168,6 +171,11 @@ const Login: React.FC = () => {
     setFormData({ name: '', email: '', password: '' });
     setValidationErrors({});
     setTouched({});
+    setShowPassword(false);
+  };
+
+  const togglePasswordVisibility = (): void => {
+    setShowPassword(prev => !prev);
   };
 
   const getInputClassName = (fieldName: string): string => {
@@ -237,29 +245,81 @@ const Login: React.FC = () => {
           )}
         </div>
 
+        {/* Password Field with Toggle */}
         <div className="mb-2">
-          <input 
-            type="password" 
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-            className={getInputClassName('password')}
-            placeholder="Password"
-            disabled={isLoading}
-          />
+          <div className="relative">
+            <input 
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              onBlur={handleBlur}
+              className={`${getInputClassName('password')} pr-12`}
+              placeholder="Password"
+              disabled={isLoading}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              disabled={isLoading}
+              className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none transition-colors ${
+                isLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+              }`}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? (
+                // Eye slash icon (hide)
+                <svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" 
+                  />
+                </svg>
+              ) : (
+                // Eye icon (show)
+                <svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" 
+                  />
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" 
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
+          
           {touched.password && validationErrors.password && (
             <p className="text-red-500 text-sm mt-1 flex items-center">
               <span className="mr-1">❌</span>
               {validationErrors.password}
             </p>
           )}
+          
           {currentState === 'Sign Up' && !validationErrors.password && (
             <div className="text-xs text-gray-500 mt-1">
               <p>Password requirements:</p>
               <ul className="list-disc list-inside ml-2 space-y-0.5">
-                <li className={formData.password.length >= 6 ? 'text-green-600' : ''}>
-                  At least 6 characters
+                <li className={formData.password.length >= 8 ? 'text-green-600' : ''}>
+                  At least 8 characters
                 </li>
                 <li className={/(?=.*[a-z])/.test(formData.password) ? 'text-green-600' : ''}>
                   One lowercase letter
@@ -269,6 +329,9 @@ const Login: React.FC = () => {
                 </li>
                 <li className={/(?=.*\d)/.test(formData.password) ? 'text-green-600' : ''}>
                   One number
+                </li>
+                <li className={/(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/.test(formData.password) ? 'text-green-600' : ''}>
+                  One special character (!@#$%^&*...)
                 </li>
               </ul>
             </div>

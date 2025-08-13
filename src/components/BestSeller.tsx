@@ -7,6 +7,7 @@ import ProductItem from "./ProductItem";
 
 const BestSeller: React.FC = () => {
     const products = useSelector(selectProducts);
+    // console.log(products)
     const [bestSeller, setBestSeller] = useState<Product[]>([]);
 
     useEffect(() => {

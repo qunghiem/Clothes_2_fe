@@ -28,8 +28,8 @@ interface AutoLogoutProviderProps {
 
 export const AutoLogoutProvider: React.FC<AutoLogoutProviderProps> = ({
   children,
-  timeoutDuration = 5 * 60 * 1000, // 5 minutes
-  warningDuration = 30 * 1000, // 30 seconds
+  timeoutDuration = 5 * 60 * 1000, // 5 phút
+  warningDuration = 30 * 1000, // 30 giây
   showWarning = true
 }) => {
   const [isWarningShown, setIsWarningShown] = useState(false);
@@ -41,7 +41,6 @@ export const AutoLogoutProvider: React.FC<AutoLogoutProviderProps> = ({
     onWarning: () => {
       setIsWarningShown(true);
       
-      // Auto hide warning after warning duration
       setTimeout(() => {
         setIsWarningShown(false);
       }, warningDuration);

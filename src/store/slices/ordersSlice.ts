@@ -122,10 +122,10 @@ const ordersSlice = createSlice({
         estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
       };
 
-      state.orders.unshift(newOrder); // Add to beginning of array
+      state.orders.unshift(newOrder); 
       saveOrdersToStorage(state.orders, state.currentUserId);
       
-      toast.success('Đặt hàng thành công!', { autoClose: 2000 });
+      toast.success('Order Successful!', { autoClose: 2000 });
     },
 
     // Update order status

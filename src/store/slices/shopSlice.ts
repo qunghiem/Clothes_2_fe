@@ -85,12 +85,10 @@ export const {
   toggleBestseller,
 } = shopSlice.actions;
 
-// Selectors
 export const selectProducts = (state: RootState): Product[] => state.shop.products;
 export const selectCurrency = (state: RootState): Currency => state.shop.currency;
 export const selectDeliveryFee = (state: RootState): number => state.shop.delivery_fee;
 
-// Add selectors
 export const selectProductById = (productId: string) => (state: RootState): Product | undefined =>
   state.shop.products.find(product => product._id === productId);
 
