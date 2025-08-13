@@ -113,11 +113,9 @@ const authSlice = createSlice({
       state.error = null;
     },
     
-    // Trong authSlice.ts, sửa action updateProfile:
 
 updateProfile: (state, action: PayloadAction<Partial<User>>) => {
   if (state.user) {
-    // Cập nhật thông tin cơ bản
     const updatedData = { ...state.user, ...action.payload };
     
     // tên update -> avt update theo
@@ -141,7 +139,6 @@ updateProfile: (state, action: PayloadAction<Partial<User>>) => {
   },
 });
 
-// Export actions
 export const { 
   loginStart, 
   loginSuccess, 
@@ -154,11 +151,8 @@ export const {
   updateProfile
 } = authSlice.actions;
 
-// Async action creators (thunks) với TypeScript
 export const loginUser = (credentials: LoginCredentials) => (dispatch: any, getState: any) => {
   dispatch(loginStart());
-  
-  // Simulate API call delay
   setTimeout(() => {
     const { users } = getState().auth;
     const user = users.find(
@@ -169,7 +163,6 @@ export const loginUser = (credentials: LoginCredentials) => (dispatch: any, getS
       const { password, ...userWithoutPassword } = user;
       dispatch(loginSuccess(userWithoutPassword));
       
-      // Initialize cart and orders for this user
       dispatch({ type: 'cart/initializeCart', payload: user.id });
       dispatch({ type: 'orders/initializeOrders', payload: user.id });
     } else {
@@ -181,11 +174,9 @@ export const loginUser = (credentials: LoginCredentials) => (dispatch: any, getS
 export const registerUser = (userData: RegisterData) => (dispatch: any, getState: any) => {
   dispatch(registerStart());
   
-  // Simulate API call delay
   setTimeout(() => {
     const { users } = getState().auth;
     
-    // Check if email already exists
     const existingUser = users.find((u: UserWithPassword) => u.email === userData.email);
     
     if (existingUser) {
@@ -193,7 +184,6 @@ export const registerUser = (userData: RegisterData) => (dispatch: any, getState
       return;
     }
     
-    // Create new user
     const newUser: UserWithPassword = {
       id: Date.now().toString(),
       name: userData.name,
@@ -210,38 +200,30 @@ export const registerUser = (userData: RegisterData) => (dispatch: any, getState
       newUser: newUser,
     }));
     
-    // Initialize cart and orders for this new user
     dispatch({ type: 'cart/initializeCart', payload: newUser.id });
     dispatch({ type: 'orders/initializeOrders', payload: newUser.id });
   }, 1000);
 };
 
-// Initialize user data on app startup
 export const initializeApp = () => (dispatch: any, getState: any) => {
   const { user, isAuthenticated } = getState().auth;
   
   if (isAuthenticated && user?.id) {
-    // Initialize cart and orders for existing logged-in user
     dispatch({ type: 'cart/initializeCart', payload: user.id });
     dispatch({ type: 'orders/initializeOrders', payload: user.id });
   } else {
-    // If no user is logged in, ensure cart is empty
     dispatch({ type: 'cart/clearCartOnLogout' });
     dispatch({ type: 'orders/clearOrdersOnLogout' });
   }
 };
 
-// Custom logout action that also clears cart
 export const logoutUser = () => (dispatch: any) => {
-  // Clear cart and orders before logout
   dispatch({ type: 'cart/clearCartOnLogout' });
   dispatch({ type: 'orders/clearOrdersOnLogout' });
   
-  // Then logout
   dispatch(logout());
 };
 
-// Selectors
 export const selectUser = (state: any) => state.auth.user;
 export const selectIsAuthenticated = (state: any) => state.auth.isAuthenticated;
 export const selectIsLoading = (state: any) => state.auth.isLoading;

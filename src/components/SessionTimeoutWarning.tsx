@@ -1,4 +1,3 @@
-// src/components/SessionTimeoutWarning.tsx
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../store/slices/authSlice';
@@ -46,11 +45,8 @@ export const SessionTimeoutWarning: React.FC = () => {
 
   return (
     <>
-      {/* Backdrop */}
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        {/* Modal */}
         <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6 relative">
-          {/* Warning Icon */}
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-yellow-100 rounded-full">
             <svg 
               className="w-8 h-8 text-yellow-600" 
@@ -67,18 +63,15 @@ export const SessionTimeoutWarning: React.FC = () => {
             </svg>
           </div>
 
-          {/* Title */}
           <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">
             Session Timeout Warning
           </h3>
 
-          {/* Message */}
           <p className="text-gray-600 text-center mb-6">
             Your session will expire in <span className="font-bold text-red-600">{countdown}</span> seconds due to inactivity. 
             You will be automatically logged out.
           </p>
 
-          {/* Countdown Progress Bar */}
           <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
             <div 
               className="bg-red-600 h-2 rounded-full transition-all duration-1000 ease-linear"
@@ -86,7 +79,6 @@ export const SessionTimeoutWarning: React.FC = () => {
             ></div>
           </div>
 
-          {/* Actions */}
           <div className="flex gap-3">
             <button
               onClick={handleStayLoggedIn}
@@ -102,7 +94,6 @@ export const SessionTimeoutWarning: React.FC = () => {
             </button>
           </div>
 
-          {/* Additional Info */}
           <p className="text-xs text-gray-500 text-center mt-4">
             Click "Stay Logged In" to extend your session or continue browsing to stay active.
           </p>

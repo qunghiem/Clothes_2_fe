@@ -1,4 +1,3 @@
-// src/pages/Orders.tsx
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
@@ -76,7 +75,6 @@ const Orders: React.FC = () => {
         <div className="space-y-6">
           {orders.map((order) => (
             <div key={order.id} className="border rounded-lg p-6 bg-white shadow-sm">
-              {/* Order Header */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 pb-4 border-b">
                 <div>
                   <h3 className="font-semibold text-lg">Order #{order.id}</h3>

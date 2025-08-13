@@ -1,4 +1,3 @@
-// src/components/Hero.tsx
 import React from "react";
 import { assets } from "../assets/assets";
 
@@ -6,7 +5,6 @@ import { assets } from "../assets/assets";
 const Hero: React.FC = () => {
     return (
         <div className="flex flex-col sm:flex-row border border-gray-400">
-            {/* left side banner */}
             <div className="w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0">
                 <div className="text-[#414141]">
                     <div className="flex items-center gap-2">
@@ -22,7 +20,6 @@ const Hero: React.FC = () => {
 
             </div>
 
-            {/* right side banner*/}
             <img src={assets.hero_img} className="w-full sm:w-1/2" alt="" />
         </div>
     )

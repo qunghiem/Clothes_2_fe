@@ -1,4 +1,3 @@
-// src/pages/Cart.tsx
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +32,6 @@ const Cart: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
 
-  // Calculate totals for selected items only
   const [selectedTotals, setSelectedTotals] = useState<SelectedTotals>({
     subtotal: 0,
     total: 0,
@@ -60,7 +58,6 @@ const Cart: React.FC = () => {
     setCartData(tempData);
   }, [cartItems, isAuthenticated, currentUserId]);
 
-  // Calculate totals for selected items
   useEffect(() => {
     let subtotal = 0;
 
@@ -88,7 +85,6 @@ const Cart: React.FC = () => {
     });
   }, [selectedItems, cartData, products, deliveryFee]);
 
-  // Handle select individual item
   const handleSelectItem = (itemId: string, size: string, isChecked: boolean): void => {
     if (isChecked) {
       setSelectedItems((prev) => [...prev, { itemId, size }]);
@@ -99,7 +95,6 @@ const Cart: React.FC = () => {
     }
   };
 
-  // Handle select all items
   const handleSelectAll = (isChecked: boolean): void => {
     setSelectAll(isChecked);
     if (isChecked) {
@@ -113,14 +108,12 @@ const Cart: React.FC = () => {
     }
   };
 
-  // Check if item is selected
   const isItemSelected = (itemId: string, size: string): boolean => {
     return selectedItems.some(
       (item) => item.itemId === itemId && item.size === size
     );
   };
 
-  // Update selectAll state when selectedItems change
   useEffect(() => {
     if (cartData.length > 0) {
       const allSelected = cartData.every((item) =>
@@ -148,7 +141,6 @@ const Cart: React.FC = () => {
       );
       if (confirmed) {
         dispatch(updateQuantity({ itemId, size, quantity }));
-        // Remove from selected items if it was selected
         setSelectedItems((prev) =>
           prev.filter((item) => !(item.itemId === itemId && item.size === size))
         );
@@ -164,7 +156,6 @@ const Cart: React.FC = () => {
       return;
     }
 
-    // Pass selected items with product info to checkout
     const selectedCartData = cartData
       .filter((item) =>
         selectedItems.some(
@@ -192,7 +183,6 @@ const Cart: React.FC = () => {
     });
   };
 
-  // Show login prompt if user is not authenticated
   if (!isAuthenticated) {
     return (
       <div className="border-t pt-14 py-20">
@@ -242,7 +232,6 @@ const Cart: React.FC = () => {
     );
   }
 
-  // Show empty cart if authenticated user has no items
   if (cartData.length === 0) {
     return (
       <div className="border-t pt-14 py-20">

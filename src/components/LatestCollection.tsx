@@ -1,4 +1,3 @@
-// src/components/LatestCollection.tsx
 import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { selectProducts } from '../store/slices/shopSlice';
@@ -10,7 +9,6 @@ const LatestCollection: React.FC = () => {
     const products = useSelector(selectProducts);
     const [latestProducts, setLatestProducts] = useState<Product[]>([]);
 
-    // Get first 10 products
     useEffect(() => {
         setLatestProducts(products.slice(0, 10));
     }, [products]);
@@ -24,7 +22,6 @@ const LatestCollection: React.FC = () => {
                 </p>
             </div>
 
-            {/* render 10 products */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
                 {latestProducts.map((item, index) => (
                     <ProductItem 

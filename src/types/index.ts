@@ -1,4 +1,3 @@
-// User types
 export interface User {
   id: string;
   name: string;
@@ -13,7 +12,6 @@ export interface UserWithPassword extends User {
   password: string;
 }
 
-// Product types
 export interface Product {
   _id: string;
   name: string;
@@ -27,7 +25,6 @@ export interface Product {
   bestseller: boolean;
 }
 
-// Cart types
 export interface CartItem {
   [size: string]: number;
 }
@@ -50,7 +47,6 @@ export interface SelectedItem {
   size: string;
 }
 
-// Order types
 export interface DeliveryInfo {
   firstName: string;
   lastName: string;
@@ -81,14 +77,12 @@ export interface Order {
   estimatedDelivery: string;
 }
 
-// UI types
 export interface Filters {
   category: string[];
   subCategory: string[];
   sortType: string;
 }
 
-// Redux state types
 export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
@@ -129,7 +123,6 @@ export interface RootState {
   orders: OrdersState;
 }
 
-// Component props types
 export interface ProductItemProps {
   id: string;
   image: string[];
@@ -151,7 +144,6 @@ export interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
-// Form data types
 export interface LoginFormData {
   email: string;
   password: string;
@@ -170,7 +162,6 @@ export interface ProfileFormData {
   address: string;
 }
 
-// API response types
 export interface LoginCredentials {
   email: string;
   password: string;

@@ -1,4 +1,3 @@
-// src/components/CartTotal.tsx
 import React from "react";
 import { useSelector } from 'react-redux';
 import { selectCurrency, selectDeliveryFee } from '../store/slices/shopSlice';

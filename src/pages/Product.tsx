@@ -1,4 +1,3 @@
-// src/pages/Product.tsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
@@ -117,7 +116,7 @@ const Product: React.FC = () => {
                         className={`px-8 py-3 text-sm text-white transition-colors ${
                             isAuthenticated 
                                 ? 'bg-black hover:bg-gray-700 active:bg-gray-800' 
-                                : 'bg-blue-600 hover:bg-blue-700'
+                                : 'bg-cus rounded-sm'
                         }`}
                     >
                         {isAuthenticated ? 'ADD TO CART' : 'SING IN TO BUY'}

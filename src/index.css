@@ -28,3 +28,11 @@ a.active hr {
     color: white;
   }
 }
+
+.bg-cus {
+  background-color: #113B74;
+}
+
+.bg-cus:hover {
+  background: #3c5e8e;
+}

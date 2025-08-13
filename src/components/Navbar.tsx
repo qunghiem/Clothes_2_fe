@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
@@ -23,13 +22,11 @@ const Navbar: React.FC = () => {
   const user = useSelector(selectUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
-  // Đóng dropdown khi location thay đổi
   useEffect(() => {
     setShowProfileDropdown(false);
-    setVisible(false); // Cũng đóng mobile menu
+    setVisible(false); 
   }, [location.pathname]);
 
-  // Đóng dropdown khi click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
@@ -64,11 +61,8 @@ const Navbar: React.FC = () => {
     }
   };
 
-  // Xử lý navigation với delay để tránh đóng dropdown quá sớm
   const handleDropdownNavigation = (path: string): void => {
-    // Đóng dropdown trước
     setShowProfileDropdown(false);
-    // Navigate sau một delay nhỏ
     setTimeout(() => {
       navigate(path);
     }, 100);
@@ -109,7 +103,6 @@ const Navbar: React.FC = () => {
           />
         </Link>
 
-        {/* Profile/Login Section */}
         <div className="group relative profile-dropdown-container">
           <div
             onClick={handleProfileClick}

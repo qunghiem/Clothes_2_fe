@@ -1,8 +1,6 @@
-// src/store/slices/ordersSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-// Type definitions
 export type OrderStatus = 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 export type PaymentMethod = 'cod' | 'card' | 'paypal' | 'bank_transfer';
 
@@ -59,13 +57,10 @@ export interface UpdateOrderStatusPayload {
   status: OrderStatus;
 }
 
-// Redux store types
 export interface RootState {
   orders: OrdersState;
-  // Add other slices as needed
 }
 
-// Load orders from localStorage for specific user
 const loadOrdersFromStorage = (userId: string | null = null): Order[] => {
   try {
     if (!userId) return [];
@@ -78,7 +73,6 @@ const loadOrdersFromStorage = (userId: string | null = null): Order[] => {
   }
 };
 
-// Save orders to localStorage for specific user
 const saveOrdersToStorage = (orders: Order[], userId: string | null = null): void => {
   try {
     if (!userId) return;
@@ -99,14 +93,12 @@ const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    // Initialize orders when user logs in
     initializeOrders: (state, action: PayloadAction<string>) => {
       const userId = action.payload;
       state.currentUserId = userId;
       state.orders = loadOrdersFromStorage(userId);
     },
 
-    // Clear orders when user logs out
     clearOrdersOnLogout: (state) => {
       state.orders = [];
       state.currentUserId = null;
@@ -181,21 +173,17 @@ export const {
   setLoading,
 } = ordersSlice.actions;
 
-// Selectors
 export const selectOrders = (state: RootState): Order[] => state.orders.orders;
 export const selectCurrentUserOrders = (state: RootState): Order[] => state.orders.orders;
 export const selectOrdersLoading = (state: RootState): boolean => state.orders.isLoading;
 export const selectCurrentUserId = (state: RootState): string | null => state.orders.currentUserId;
 
-// Get orders by status
 export const selectOrdersByStatus = (status: OrderStatus) => (state: RootState): Order[] =>
   state.orders.orders.filter(order => order.status === status);
 
-// Get order by ID
 export const selectOrderById = (orderId: string) => (state: RootState): Order | undefined =>
   state.orders.orders.find(order => order.id === orderId);
 
-// Get recent orders (last 30 days)
 export const selectRecentOrders = (state: RootState): Order[] => {
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
   return state.orders.orders.filter(order => 
@@ -203,10 +191,8 @@ export const selectRecentOrders = (state: RootState): Order[] => {
   );
 };
 
-// Get total orders count
 export const selectTotalOrdersCount = (state: RootState): number => state.orders.orders.length;
 
-// Get orders total amount
 export const selectOrdersTotalAmount = (state: RootState): number =>
   state.orders.orders.reduce((total, order) => total + order.totalAmount, 0);
 

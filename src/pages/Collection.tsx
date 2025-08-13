@@ -1,4 +1,3 @@
-// src/pages/Collection.tsx
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { assets } from "../assets/assets";
@@ -27,20 +26,17 @@ const Collection: React.FC = () => {
 
     const [filterProducts, setFilterProducts] = useState<Product[]>([]);
     
-    // Pagination states
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [productsPerPage] = useState<number>(12); // Số sản phẩm mỗi trang
     
-    // Calculate pagination
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = filterProducts.slice(indexOfFirstProduct, indexOfLastProduct);
     const totalPages = Math.ceil(filterProducts.length / productsPerPage);
     
-    // Generate page numbers array
     const getPageNumbers = (): (number | string)[] => {
         const pageNumbers: (number | string)[] = [];
-        const maxVisiblePages = 5; // Số trang hiển thị tối đa
+        const maxVisiblePages = 5; 
         
         if (totalPages <= maxVisiblePages) {
             for (let i = 1; i <= totalPages; i++) {
@@ -80,23 +76,22 @@ const Collection: React.FC = () => {
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         dispatch(toggleCategory(e.target.value));
-        setCurrentPage(1); // Reset về trang 1 khi filter thay đổi
+        setCurrentPage(1); 
     };
 
     const handleSubCategoryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         dispatch(toggleSubCategory(e.target.value));
-        setCurrentPage(1); // Reset về trang 1 khi filter thay đổi
+        setCurrentPage(1); 
     };
 
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
         dispatch(setSortType(e.target.value));
-        setCurrentPage(1); // Reset về trang 1 khi sort thay đổi
+        setCurrentPage(1);
     };
 
     const handlePageChange = (pageNumber: number): void => {
         if (pageNumber >= 1 && pageNumber <= totalPages) {
             setCurrentPage(pageNumber);
-            // Scroll to top when changing page
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
@@ -147,12 +142,11 @@ const Collection: React.FC = () => {
 
     useEffect(() => {
         applyFilter();
-        setCurrentPage(1); // Reset về trang 1 khi filters thay đổi
+        setCurrentPage(1); 
     }, [filters.category, filters.subCategory, search, showSearch, products]);
 
     return (
         <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
-            {/* Filter */}
             <div className="min-w-60">
                 <p
                     onClick={handleToggleFilter}

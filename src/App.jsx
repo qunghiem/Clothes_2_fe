@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from 'react-redux';
@@ -21,20 +20,20 @@ import SearchBar from "./components/SearchBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AutoLogoutProvider } from "./components/AutoLogoutProvider";
 import { SessionTimeoutWarning } from "./components/SessionTimeoutWarning";
+import { EnhancedChatbot } from "./components/EnhancedChatbot";
 import { initializeApp } from './store/slices/authSlice';
 
 const App = () => {
   const dispatch = useDispatch();
 
-  // Initialize app when component mounts
   useEffect(() => {
     dispatch(initializeApp());
   }, [dispatch]);
 
   return (
     <AutoLogoutProvider 
-      timeoutDuration={5 * 60 * 1000} // 5 minutes
-      warningDuration={30 * 1000}      // 30 seconds warning
+      timeoutDuration={60 * 60 * 1000} 
+      warningDuration={30 * 1000}      
       showWarning={true}
     >
       <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
@@ -50,8 +49,9 @@ const App = () => {
           pauseOnHover
         />
         
-        {/* Session Timeout Warning Modal */}
         <SessionTimeoutWarning />
+        
+        <EnhancedChatbot />
         
         <Navbar />
         <SearchBar />

@@ -1,8 +1,6 @@
-// src/store/slices/shopSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { products } from '../../assets/assets';
 
-// Type definitions
 export type Currency = '$' | '€' | '£' | '¥' | '₫' | string;
 
 export interface Product {
@@ -24,10 +22,8 @@ export interface ShopState {
   delivery_fee: number;
 }
 
-// Redux store types
 export interface RootState {
   shop: ShopState;
-  // Add other slices as needed
 }
 
 const initialState: ShopState = {
@@ -52,7 +48,6 @@ const shopSlice = createSlice({
       state.delivery_fee = action.payload;
     },
 
-    // Additional useful reducers
     addProduct: (state, action: PayloadAction<Product>) => {
       state.products.push(action.payload);
     },
@@ -95,7 +90,7 @@ export const selectProducts = (state: RootState): Product[] => state.shop.produc
 export const selectCurrency = (state: RootState): Currency => state.shop.currency;
 export const selectDeliveryFee = (state: RootState): number => state.shop.delivery_fee;
 
-// Additional selectors
+// Add selectors
 export const selectProductById = (productId: string) => (state: RootState): Product | undefined =>
   state.shop.products.find(product => product._id === productId);
 

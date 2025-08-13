@@ -1,13 +1,10 @@
-// src/hooks/useAutoLogout.ts
 import { useEffect, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectIsAuthenticated, logoutUser } from '../store/slices/authSlice';
 import { toast } from 'react-toastify';
 
-// Thời gian timeout (5 phút = 300,000ms)
 const TIMEOUT_DURATION = 5 * 60 * 1000; // 5 minutes
-// Thời gian cảnh báo trước khi logout (30 giây)
 const WARNING_DURATION = 30 * 1000; // 30 seconds
 
 interface UseAutoLogoutOptions {
@@ -35,7 +32,6 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}) => {
   const warningTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastActivityRef = useRef<number>(Date.now());
 
-  // Danh sách các event cần theo dõi để phát hiện user activity
   const events = [
     'mousedown',
     'mousemove', 
@@ -46,7 +42,6 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}) => {
     'keydown'
   ];
 
-  // Function để logout user
   const performLogout = useCallback(() => {
     if (isAuthenticated) {
       dispatch(logoutUser());
@@ -59,7 +54,6 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}) => {
     }
   }, [dispatch, navigate, isAuthenticated, onLogout]);
 
-  // Function để hiển thị cảnh báo
   const showWarningMessage = useCallback(() => {
     if (showWarning && isAuthenticated) {
       toast.warning(`You will be logged out in ${warningDuration / 1000} seconds due to inactivity.`, {
@@ -73,14 +67,12 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}) => {
     }
   }, [showWarning, warningDuration, isAuthenticated, onWarning]);
 
-  // Function để reset timer
   const resetTimer = useCallback(() => {
     if (!isAuthenticated) return;
 
     const now = Date.now();
     lastActivityRef.current = now;
 
-    // Clear existing timers
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -88,28 +80,23 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}) => {
       clearTimeout(warningTimeoutRef.current);
     }
 
-    // Set warning timer (shows warning before logout)
     if (showWarning) {
       warningTimeoutRef.current = setTimeout(() => {
         showWarningMessage();
       }, timeoutDuration - warningDuration);
     }
 
-    // Set logout timer
     timeoutRef.current = setTimeout(() => {
       performLogout();
     }, timeoutDuration);
   }, [isAuthenticated, timeoutDuration, warningDuration, showWarning, showWarningMessage, performLogout]);
 
-  // Function để handle user activity
   const handleActivity = useCallback(() => {
     resetTimer();
   }, [resetTimer]);
 
-  // Setup và cleanup event listeners
   useEffect(() => {
     if (!isAuthenticated) {
-      // Clear timers nếu user không được authenticate
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
@@ -121,15 +108,12 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}) => {
       return;
     }
 
-    // Add event listeners
     events.forEach(event => {
       document.addEventListener(event, handleActivity, true);
     });
 
-    // Start timer
     resetTimer();
 
-    // Cleanup function
     return () => {
       events.forEach(event => {
         document.removeEventListener(event, handleActivity, true);
@@ -144,23 +128,18 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}) => {
     };
   }, [isAuthenticated, handleActivity, resetTimer]);
 
-  // Handle visibility change (when user switches tabs)
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!isAuthenticated) return;
 
       if (document.hidden) {
-        // Tab is hidden, pause the timer by storing current timestamp
         lastActivityRef.current = Date.now();
       } else {
-        // Tab is visible again, check if we should logout
         const timeAwayFromTab = Date.now() - lastActivityRef.current;
         
         if (timeAwayFromTab >= timeoutDuration) {
-          // User was away longer than timeout duration
           performLogout();
         } else {
-          // Reset timer with remaining time
           resetTimer();
         }
       }
@@ -173,7 +152,6 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}) => {
     };
   }, [isAuthenticated, timeoutDuration, performLogout, resetTimer]);
 
-  // Return utility functions
   return {
     resetTimer,
     getRemainingTime: () => {

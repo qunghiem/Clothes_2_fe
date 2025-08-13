@@ -1,4 +1,3 @@
-// src/components/NewsletterBox.tsx
 import React from "react";
 
 const NewsletterBox: React.FC = () => {

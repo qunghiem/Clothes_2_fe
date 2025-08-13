@@ -1,4 +1,3 @@
-// src/pages/PlaceOrder.tsx
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
@@ -30,7 +29,6 @@ interface ValidationErrors {
     [key: string]: string;
 }
 
-// Validation utility functions
 const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -44,10 +42,8 @@ const validatePhone = (phone: string): boolean => {
 const validatePostalCode = (zipCode: string, country: string): boolean => {
     if (!zipCode.trim()) return false;
     
-    // Basic validation - at least 3 characters
     if (zipCode.trim().length < 3) return false;
     
-    // Country-specific validation (add more as needed)
     switch (country.toLowerCase()) {
         case 'usa':
         case 'united states':
@@ -60,10 +56,7 @@ const validatePostalCode = (zipCode: string, country: string): boolean => {
 };
 
 const validateName = (name: string): boolean => {
-    // Support Vietnamese characters and international characters
-    // \p{L} matches any Unicode letter (including Vietnamese characters)
-    // \p{M} matches any Unicode mark (including Vietnamese tone marks)
-    return name.trim().length >= 2 && /^[\p{L}\p{M}\s'-]+$/u.test(name);
+    return name.trim().length >= 0 && /^[\p{L}\p{M}\s'-]+$/u.test(name);
 };
 
 const PlaceOrder: React.FC = () => {
@@ -148,7 +141,6 @@ const PlaceOrder: React.FC = () => {
     const validateForm = (): boolean => {
         const newErrors: ValidationErrors = {};
         
-        // Validate all fields
         Object.keys(deliveryInfo).forEach(key => {
             const error = validateField(key, deliveryInfo[key as keyof DeliveryInfo]);
             if (error) {
@@ -156,7 +148,6 @@ const PlaceOrder: React.FC = () => {
             }
         });
 
-        // Additional cross-field validation
         if (!newErrors.zipCode && !newErrors.country) {
             const zipError = validateField('zipCode', deliveryInfo.zipCode);
             if (zipError) {
@@ -164,12 +155,10 @@ const PlaceOrder: React.FC = () => {
             }
         }
 
-        // Validate selected items
         if (!selectedItems || selectedItems.length === 0) {
             newErrors.general = 'No products selected for ordering';
         }
 
-        // Validate payment method
         if (!method) {
             newErrors.paymentMethod = 'Please select a payment method';
         }
@@ -186,7 +175,6 @@ const PlaceOrder: React.FC = () => {
             [name]: value
         }));
 
-        // Clear error for this field when user starts typing
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -194,9 +182,8 @@ const PlaceOrder: React.FC = () => {
             }));
         }
 
-        // Real-time validation for immediate feedback
         const fieldError = validateField(name, value);
-        if (fieldError && value.trim()) { // Only show error if field has content
+        if (fieldError && value.trim()) { 
             setErrors(prev => ({
                 ...prev,
                 [name]: fieldError
@@ -442,7 +429,6 @@ const PlaceOrder: React.FC = () => {
 
                 {/* Right side */}
                 <div className="mt-8">
-                    {/* Selected Items Summary */}
                     <div className="mb-8">
                         <div className="text-xl mb-4">
                             <Title text1={"YOUR"} text2={"ORDER"} />

@@ -1,4 +1,3 @@
-// src/components/BestSeller.tsx
 import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { selectProducts } from '../store/slices/shopSlice';

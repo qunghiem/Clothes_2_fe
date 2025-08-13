@@ -1,8 +1,6 @@
-// src/store/slices/cartSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-// Type definitions
 export interface CartItem {
   [size: string]: number;
 }
@@ -14,7 +12,6 @@ export interface CartItems {
 export interface Product {
   _id: string;
   price: number;
-  // Add other product properties as needed
   name?: string;
   image?: string;
   description?: string;
@@ -46,7 +43,6 @@ export interface SelectedItem {
   size: string;
 }
 
-// Redux store types (you may need to adjust these based on your store structure)
 export interface RootState {
   cart: CartState;
   shop: {
@@ -54,7 +50,6 @@ export interface RootState {
   };
 }
 
-// Load cart from localStorage for specific user
 const loadCartFromStorage = (userId: string | null = null): CartItems => {
   try {
     if (!userId) return {}; // Return empty cart if no user
@@ -67,7 +62,6 @@ const loadCartFromStorage = (userId: string | null = null): CartItems => {
   }
 };
 
-// Save cart to localStorage for specific user
 const saveCartToStorage = (cartItems: CartItems, userId: string | null = null): void => {
   try {
     if (!userId) return; // Don't save if no user
@@ -78,7 +72,6 @@ const saveCartToStorage = (cartItems: CartItems, userId: string | null = null): 
   }
 };
 
-// Remove cart from localStorage for specific user
 const removeCartFromStorage = (userId: string): void => {
   try {
     if (!userId) return;
@@ -98,14 +91,12 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // Initialize cart when user logs in
     initializeCart: (state, action: PayloadAction<string>) => {
       const userId = action.payload;
       state.currentUserId = userId;
       state.cartItems = loadCartFromStorage(userId);
     },
 
-    // Clear cart when user logs out
     clearCartOnLogout: (state) => {
       state.cartItems = {};
       state.currentUserId = null;
@@ -119,7 +110,6 @@ const cartSlice = createSlice({
         return;
       }
 
-      // Don't allow adding to cart if user is not logged in
       if (!state.currentUserId) {
         toast.error("Please log in to add products to your cart.");
         return;
@@ -232,12 +222,10 @@ const cartSlice = createSlice({
       toast.success("All products have been removed from the cart!", { autoClose: 1500 });
     },
 
-    // New action to completely remove cart data for a user
     deleteUserCart: (state, action: PayloadAction<string>) => {
       const userId = action.payload;
       removeCartFromStorage(userId);
       
-      // If it's the current user's cart, clear it from state too
       if (state.currentUserId === userId) {
         state.cartItems = {};
       }
@@ -256,12 +244,10 @@ export const {
   deleteUserCart
 } = cartSlice.actions;
 
-// Selectors
 export const selectCartItems = (state: RootState): CartItems => state.cart.cartItems;
 export const selectCurrentUserId = (state: RootState): string | null => state.cart.currentUserId;
 
 export const selectCartCount = (state: RootState): number => {
-  // Return 0 if user is not logged in
   if (!state.cart.currentUserId) return 0;
   
   let totalCount = 0;
@@ -282,7 +268,6 @@ export const selectCartCount = (state: RootState): number => {
 };
 
 export const selectCartAmount = (state: RootState): number => {
-  // Return 0 if user is not logged in
   if (!state.cart.currentUserId) return 0;
   
   let totalAmount = 0;
@@ -306,7 +291,6 @@ export const selectCartAmount = (state: RootState): number => {
   return totalAmount;
 };
 
-// New selector to get selected cart amount
 export const selectSelectedCartAmount = (selectedItems: SelectedItem[]) => (state: RootState): number => {
   if (!selectedItems || selectedItems.length === 0) return 0;
   

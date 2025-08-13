@@ -1,4 +1,3 @@
-// src/components/Template.tsx
 import React from "react";
 
 const Template: React.FC = () => {

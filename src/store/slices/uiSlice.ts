@@ -1,7 +1,5 @@
-// src/store/slices/uiSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Type definitions
 export type SortType = 'relavent' | 'low-high' | 'high-low' | 'newest' | 'oldest' | 'name-asc' | 'name-desc';
 
 export interface Filters {
@@ -17,10 +15,8 @@ export interface UIState {
   showFilter: boolean;
 }
 
-// Redux store types
 export interface RootState {
   ui: UIState;
-  // Add other slices as needed
 }
 
 const initialState: UIState = {
@@ -82,7 +78,6 @@ const uiSlice = createSlice({
       state.filters.sortType = 'relavent';
     },
 
-    // Additional useful reducers
     clearSearch: (state) => {
       state.search = '';
     },
@@ -180,7 +175,6 @@ export const selectSearchQuery = (state: RootState): string => state.ui.search.t
 
 export const selectHasSearchQuery = (state: RootState): boolean => state.ui.search.trim().length > 0;
 
-// Complex selector for UI state summary
 export const selectUIStateSummary = (state: RootState) => ({
   hasSearch: state.ui.search.trim().length > 0,
   searchVisible: state.ui.showSearch,
@@ -189,7 +183,6 @@ export const selectUIStateSummary = (state: RootState) => ({
   sortType: state.ui.filters.sortType,
 });
 
-// Selector to check if any UI controls are active
 export const selectHasActiveUIControls = (state: RootState): boolean => {
   return (
     state.ui.search.trim().length > 0 ||

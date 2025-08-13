@@ -1,4 +1,3 @@
-// src/components/SessionTimerDisplay.tsx
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../store/slices/authSlice';
@@ -6,14 +5,14 @@ import { useAutoLogoutContext } from './AutoLogoutProvider';
 
 interface SessionTimerDisplayProps {
   className?: string;
-  showOnlyWarning?: boolean; // Chỉ hiển thị khi sắp hết thời gian
-  warningThreshold?: number; // Hiển thị warning khi còn lại bao nhiêu giây (default: 60s)
+  showOnlyWarning?: boolean; 
+  warningThreshold?: number; 
 }
 
 export const SessionTimerDisplay: React.FC<SessionTimerDisplayProps> = ({
   className = '',
   showOnlyWarning = false,
-  warningThreshold = 60 * 1000 // 60 seconds
+  warningThreshold = 60 * 1000 
 }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { getRemainingTime, resetTimer } = useAutoLogoutContext();
@@ -52,11 +51,11 @@ export const SessionTimerDisplay: React.FC<SessionTimerDisplayProps> = ({
   };
 
   const getColorClass = (): string => {
-    if (remainingTime <= 30 * 1000) { // Less than 30 seconds
+    if (remainingTime <= 30 * 1000) { 
       return 'text-red-600 bg-red-100';
-    } else if (remainingTime <= 60 * 1000) { // Less than 1 minute
+    } else if (remainingTime <= 60 * 1000) { 
       return 'text-orange-600 bg-orange-100';
-    } else if (remainingTime <= 2 * 60 * 1000) { // Less than 2 minutes
+    } else if (remainingTime <= 2 * 60 * 1000) { 
       return 'text-yellow-600 bg-yellow-100';
     }
     return 'text-green-600 bg-green-100';
@@ -72,7 +71,6 @@ export const SessionTimerDisplay: React.FC<SessionTimerDisplayProps> = ({
 
   return (
     <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs ${getColorClass()} ${className}`}>
-      {/* Clock Icon */}
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path 
           strokeLinecap="round" 
@@ -82,12 +80,10 @@ export const SessionTimerDisplay: React.FC<SessionTimerDisplayProps> = ({
         />
       </svg>
       
-      {/* Timer Text */}
       <span className="font-medium">
         {formatTime(remainingTime)}
       </span>
       
-      {/* Extend Button (show when less than 2 minutes) */}
       {remainingTime <= 2 * 60 * 1000 && (
         <button
           onClick={handleExtendSession}
@@ -101,7 +97,6 @@ export const SessionTimerDisplay: React.FC<SessionTimerDisplayProps> = ({
   );
 };
 
-// Component đơn giản hơn chỉ hiển thị icon cảnh báo
 export const SessionWarningIcon: React.FC<{ className?: string }> = ({ className = '' }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { getRemainingTime } = useAutoLogoutContext();

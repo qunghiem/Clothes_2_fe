@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from "react-router-dom";
@@ -38,7 +37,7 @@ const Login: React.FC = () => {
   const error = useSelector(selectError);
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
-  // Validation rules
+  // Validation
   const validateField = (name: string, value: string): string | undefined => {
     switch (name) {
       case 'name':
@@ -86,7 +85,6 @@ const Login: React.FC = () => {
     return Object.keys(errors).length === 0;
   };
 
-  // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
       const redirectTo = location.state?.from?.pathname || '/';
@@ -94,7 +92,6 @@ const Login: React.FC = () => {
     }
   }, [isAuthenticated, navigate, location]);
 
-  // Clear error when component unmounts or state changes
   useEffect(() => {
     return () => {
       dispatch(clearError());
@@ -114,7 +111,6 @@ const Login: React.FC = () => {
       [name]: value
     }));
 
-    // Real-time validation for touched fields
     if (touched[name]) {
       const fieldError = validateField(name, value);
       setValidationErrors(prev => ({
@@ -138,7 +134,6 @@ const Login: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     
-    // Mark all fields as touched
     const touchedFields: {[key: string]: boolean} = {
       email: true,
       password: true
@@ -148,7 +143,6 @@ const Login: React.FC = () => {
     }
     setTouched(touchedFields);
 
-    // Validate form
     if (!validateForm()) {
       return;
     }
@@ -192,7 +186,6 @@ const Login: React.FC = () => {
         <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
       </div>
 
-      {/* Server Error Message */}
       {error && (
         <div className="w-full p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
           <div className="flex items-center">
@@ -203,7 +196,6 @@ const Login: React.FC = () => {
       )}
 
       <form onSubmit={handleSubmit} className="w-full">
-        {/* Name Field - Only show for Sign Up */}
         {currentState === 'Sign Up' && (
           <div className="mb-4">
             <input 
@@ -245,7 +237,6 @@ const Login: React.FC = () => {
           )}
         </div>
 
-        {/* Password Field */}
         <div className="mb-2">
           <input 
             type="password" 

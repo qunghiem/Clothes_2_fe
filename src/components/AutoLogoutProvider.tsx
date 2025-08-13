@@ -1,4 +1,3 @@
-// src/components/AutoLogoutProvider.tsx
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useAutoLogout } from '../hooks/useAutoLogout';
 
@@ -22,8 +21,8 @@ export const useAutoLogoutContext = () => {
 
 interface AutoLogoutProviderProps {
   children: React.ReactNode;
-  timeoutDuration?: number; // in milliseconds
-  warningDuration?: number; // in milliseconds
+  timeoutDuration?: number; 
+  warningDuration?: number;
   showWarning?: boolean;
 }
 

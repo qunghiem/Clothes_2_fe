@@ -1,4 +1,3 @@
-// src/pages/Profile.tsx
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, updateProfile } from '../store/slices/authSlice';
