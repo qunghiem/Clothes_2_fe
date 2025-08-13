@@ -103,17 +103,17 @@ const PlaceOrder: React.FC = () => {
             
             case 'street':
                 if (!value.trim()) return 'Street address is required';
-                if (value.trim().length < 5) return 'Street address must be at least 5 characters';
+                if (value.trim().length < 0) return 'Street address must be at least 0 characters';
                 return '';
             
             case 'city':
                 if (!value.trim()) return 'City is required';
-                if (value.trim().length < 2) return 'City name must be at least 2 characters';
+                if (value.trim().length < 0) return 'City name must be at least 0 characters';
                 return '';
             
             case 'state':
                 if (!value.trim()) return 'State/Province is required';
-                if (value.trim().length < 2) return 'State/Province must be at least 2 characters';
+                if (value.trim().length < 0) return 'State/Province must be at least 0 characters';
                 return '';
             
             case 'zipCode':
@@ -125,7 +125,7 @@ const PlaceOrder: React.FC = () => {
             
             case 'country':
                 if (!value.trim()) return 'Country is required';
-                if (value.trim().length < 2) return 'Country name must be at least 2 characters';
+                if (value.trim().length < 0) return 'Country name must be at least 0 characters';
                 return '';
             
             case 'phone':
