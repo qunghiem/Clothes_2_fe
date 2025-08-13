@@ -7,6 +7,7 @@ import { selectProducts, selectCurrency } from '../store/slices/shopSlice';
 import { selectIsAuthenticated } from '../store/slices/authSlice';
 import { addToCart } from '../store/slices/cartSlice';
 import { Product as ProductType } from '../types';
+import { toast } from 'react-toastify';
 
 const Product: React.FC = () => {
     const { productId } = useParams<{ productId: string }>();
@@ -37,7 +38,7 @@ const Product: React.FC = () => {
         }
 
         if (!size) {
-            // Size validation is handled in the cartSlice
+            toast.error("Select Product Size");
             return;
         }
 

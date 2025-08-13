@@ -52,7 +52,7 @@ export interface RootState {
 
 const loadCartFromStorage = (userId: string | null = null): CartItems => {
   try {
-    if (!userId) return {}; // Return empty cart if no user
+    if (!userId) return {}; 
     const cartKey = `cart_${userId}`;
     const storedCart = localStorage.getItem(cartKey);
     return storedCart ? JSON.parse(storedCart) : {};
@@ -64,7 +64,7 @@ const loadCartFromStorage = (userId: string | null = null): CartItems => {
 
 const saveCartToStorage = (cartItems: CartItems, userId: string | null = null): void => {
   try {
-    if (!userId) return; // Don't save if no user
+    if (!userId) return; 
     const cartKey = `cart_${userId}`;
     localStorage.setItem(cartKey, JSON.stringify(cartItems));
   } catch (error) {

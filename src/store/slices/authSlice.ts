@@ -26,7 +26,6 @@ const saveUserToStorage = (user: User | null): void => {
   }
 };
 
-// Mock users database
 const loadUsersFromStorage = (): UserWithPassword[] => {
   try {
     const storedUsers = localStorage.getItem('users');
