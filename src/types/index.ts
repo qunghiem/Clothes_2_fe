@@ -88,7 +88,7 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  users: UserWithPassword[];
+  // users: UserWithPassword[];
 }
 
 export interface CartState {

@@ -2,7 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { AuthState, User, UserWithPassword, LoginCredentials, RegisterData } from '../../types';
 
-// Load user from localStorage
+const hashPassword = (password: string): string => {
+  return btoa(password + 'salt'); 
+};
+
+const verifyPassword = (password: string, hashedPassword: string): boolean => {
+  return hashPassword(password) === hashedPassword;
+};
+
 const loadUserFromStorage = (): User | null => {
   try {
     const storedUser = localStorage.getItem('user');
@@ -13,7 +20,6 @@ const loadUserFromStorage = (): User | null => {
   }
 };
 
-// Save user to localStorage
 const saveUserToStorage = (user: User | null): void => {
   try {
     if (user) {
