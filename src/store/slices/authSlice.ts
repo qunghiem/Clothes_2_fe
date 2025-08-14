@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { AuthState, User, UserWithPassword, LoginCredentials, RegisterData } from '../../types';
 
+
+// hidden password in redux devtool
 const hashPassword = (password: string): string => {
   return btoa(password + 'salt'); 
 };
@@ -9,6 +11,7 @@ const hashPassword = (password: string): string => {
 const verifyPassword = (password: string, hashedPassword: string): boolean => {
   return hashPassword(password) === hashedPassword;
 };
+// end hidden password in redux devtool
 
 const loadUserFromStorage = (): User | null => {
   try {
@@ -19,6 +22,8 @@ const loadUserFromStorage = (): User | null => {
     return null;
   }
 };
+
+
 
 const saveUserToStorage = (user: User | null): void => {
   try {
@@ -153,7 +158,7 @@ export const {
   registerFailure,
   logout, 
   clearError,
-  updateProfile
+  updateProfile,
 } = authSlice.actions;
 
 export const loginUser = (credentials: LoginCredentials) => (dispatch: any, getState: any) => {

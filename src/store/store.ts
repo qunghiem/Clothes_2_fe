@@ -10,11 +10,13 @@ const sanitizeState = (state: any) => {
     return {
       ...state,
       auth: {
-        ...state.auth,
-        users: state.auth.users.map((user: any) => ({
-          ...user,
-          password: '[HIDDEN]' // Hide password in DevTools
-        }))
+        // ...state.auth,
+        // users: state.auth.users.map((user: any) => ({
+        //   ...user,
+        //   password: '[HIDDEN]' // Hidenn password in DevTools local
+        // }))
+        
+        users: state.auth.users 
       }
     };
   }
